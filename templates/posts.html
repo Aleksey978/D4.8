@@ -9,11 +9,12 @@ Posts
 {% endblock title %}
 
 {% block content %}
+    <h2>Страница авторизованного пользователя {{request.user.username}}</h2>
    <h1>Все посты</h1>
     {% if request.path == "/posts/search" %}
     <form action="" method="get">
        {{ filterset.form.as_p }}
-       <input type="submit" value="Найти" />
+        <input type="submit" value="Найти" />
     </form>
     {% endif %}
    {% if posts %}
@@ -25,7 +26,6 @@ Posts
    {% else %}
       <h1>Постов нет</h1>
    {% endif %}
-
 {% if page_obj.has_previous %}
        {# Для каждой ссылки пагинации указываем обработку через новый тег #}
        <a href="?{% url_replace page=1 %}">1</a>
@@ -44,4 +44,11 @@ Posts
            <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
        {% endif %}
    {% endif %}
+<form action="{%url 'logout' %}" method="post">
+    {%csrf_token%}
+    <input type="submit" value="Выйти">
+</form>
+    {% if is_not_authors %}
+    <button> <a href="{%url 'upgrade' %}"> Хочу Стать автором</a> </button>
+    {% endif %}
 {% endblock content %}

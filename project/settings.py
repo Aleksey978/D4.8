@@ -41,10 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'news_portal',
     'project',
+    'sign',
     'django_filters',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.yandex',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -129,12 +131,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-LOGIN_URL = 'sign/login/'
+LOGIN_URL = 'accounts/login/'
 LOGIN_REDIRECT_URL = '/posts'
 
 # Default primary key field type
@@ -152,3 +155,14 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+# ACCOUNT_SIGNUP_REDIRECT_URL = '/accounts/signup/'
+
+SOCIALACCOUNT_PROVIDERS = {
+    'yandex': {
+        'APP': {
+            'client_id': 'aead7d7acc4d47ca9257e0cc20f7cadc',
+            'secret': '6b57f05e570b4846ac4e0311f64f216a',
+            'key': ''
+        }
+    }
+}

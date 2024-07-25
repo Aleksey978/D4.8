@@ -28,6 +28,7 @@ class PostList(ListView):
         context = super().get_context_data(**kwargs)
         # Добавляем в контекст объект фильтрации.
         context['filterset'] = self.filterset
+        context['is_not_authors'] = not self.request.user.groups.filter(name='authors').exists()
         return context
 
 
@@ -52,14 +53,11 @@ def post_create(request):
 
     return render(request, 'post_edit.html', {'form': form})
 
-@method_decorator(login_required, name='dispatch')
+@method_decorator(login_required(login_url = 'signup'), name='dispatch')
 class PostUpdate(UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
-
-    def get_success_url(self):
-        return reverse_lazy('post', kwargs={'pk': self.object.pk})
 
 
 class PostDelete(DeleteView):
